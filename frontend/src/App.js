@@ -1,5 +1,5 @@
 import "@/App.css";
-import { ArrowUpRight, Clock3, Leaf, MapPin, Menu, MessageCircle, Phone, Smartphone, Star, Store, UtensilsCrossed, X } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Clock3, Leaf, MapPin, Menu, MessageCircle, Phone, Smartphone, Star, Store, UtensilsCrossed, X } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 
@@ -139,11 +139,13 @@ function App() {
 
   const [paymentStatus, setPaymentStatus] = useState("idle");
   const [paymentMessage, setPaymentMessage] = useState("");
+  const [receipt, setReceipt] = useState(null);
 
   const closeCart = () => {
     setIsCartOpen(false);
     setPaymentStatus("idle");
     setPaymentMessage("");
+    setReceipt(null);
   };
 
   const addToCart = (product) => {
@@ -243,8 +245,16 @@ function App() {
               razorpay_signature: response.razorpay_signature,
             });
             if (verification.verified) {
+              setReceipt({
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                timestamp: new Date().toLocaleString(),
+                customerName: customerName.trim(),
+                items: cart,
+                subtotal,
+              });
               setPaymentStatus("success");
-              setPaymentMessage("Payment verified! Your order is confirmed.");
+              setPaymentMessage("");
               setCart([]);
             } else {
               setPaymentStatus("error");
@@ -404,11 +414,20 @@ function App() {
             {/* Header */}
             <div className="px-6 py-5 border-b border-[#d8cdbc] flex items-center justify-between bg-white">
               <div className="flex items-center gap-2">
-                <Store size={20} style={{ color: "var(--leaf)" }} />
-                <h2 className="text-xl font-bold font-serif text-gray-900" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Your Cart</h2>
-                <span className="bg-[#dde7d5] text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-1">
-                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
-                </span>
+                {receipt ? (
+                  <>
+                    <CheckCircle2 size={20} style={{ color: "var(--leaf)" }} />
+                    <h2 className="text-xl font-bold font-serif text-gray-900" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Order Confirmed</h2>
+                  </>
+                ) : (
+                  <>
+                    <Store size={20} style={{ color: "var(--leaf)" }} />
+                    <h2 className="text-xl font-bold font-serif text-gray-900" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Your Cart</h2>
+                    <span className="bg-[#dde7d5] text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-1">
+                      {totalItems} {totalItems === 1 ? 'item' : 'items'}
+                    </span>
+                  </>
+                )}
               </div>
               <button
                 data-testid="close-cart-button"
@@ -420,8 +439,42 @@ function App() {
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {cart.length === 0 ? (
+            <div className="flex-1 overflow-y-auto p-6 space-y-4" data-testid={receipt ? "order-receipt" : undefined}>
+              {receipt ? (
+                <>
+                  <div className="flex flex-col items-center text-center gap-2 py-2">
+                    <CheckCircle2 size={48} style={{ color: "var(--leaf)" }} />
+                    <h3 className="text-lg font-bold text-gray-900">Thank you{receipt.customerName ? `, ${receipt.customerName}` : ""}!</h3>
+                    <p className="text-sm text-gray-500">Your payment was successful and your order is confirmed.</p>
+                  </div>
+                  <div className="bg-[#fcf8f2] border border-[#d8cdbc] rounded-lg p-4 space-y-3">
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>Order ID</span>
+                      <span data-testid="receipt-order-id" className="font-mono text-gray-800 break-all text-right ml-3">{receipt.orderId}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>Payment ID</span>
+                      <span data-testid="receipt-payment-id" className="font-mono text-gray-800 break-all text-right ml-3">{receipt.paymentId}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>Date</span>
+                      <span className="text-gray-800">{receipt.timestamp}</span>
+                    </div>
+                    <div className="border-t border-[#d8cdbc] pt-3 space-y-2">
+                      {receipt.items.map((item, i) => (
+                        <div key={item.name} data-testid={`receipt-item-${i + 1}`} className="flex justify-between text-sm text-gray-700">
+                          <span>{item.name} x{item.quantity}</span>
+                          <span>{item.price.toLowerCase().includes("ask") ? "₹0" : item.price}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="border-t border-[#d8cdbc] pt-3 flex justify-between font-bold text-gray-900">
+                      <span>Total Paid</span>
+                      <span data-testid="receipt-total" style={{ color: "var(--leaf)" }}>₹{receipt.subtotal}</span>
+                    </div>
+                  </div>
+                </>
+              ) : cart.length === 0 ? (
                 <div className="text-center py-12 flex flex-col items-center justify-center h-full">
                   <Store size={48} className="text-gray-300 mb-4" />
                   <p className="text-lg font-medium text-gray-500">Your cart is empty</p>
@@ -489,8 +542,22 @@ function App() {
               )}
             </div>
 
+            {/* Receipt footer */}
+            {receipt && (
+              <div className="border-t border-[#d8cdbc] p-6 bg-white">
+                <button
+                  data-testid="continue-shopping-button"
+                  onClick={closeCart}
+                  className="w-full flex items-center justify-center gap-2 text-white font-bold py-3 px-4 rounded shadow transition duration-200 text-sm"
+                  style={{ backgroundColor: "var(--leaf)" }}
+                >
+                  Continue Shopping
+                </button>
+              </div>
+            )}
+
             {/* Footer with Subtotal, QR code & payment */}
-            {cart.length > 0 && (
+            {!receipt && cart.length > 0 && (
               <div className="border-t border-[#d8cdbc] p-6 bg-white space-y-4">
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between font-semibold text-gray-900">
