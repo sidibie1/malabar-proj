@@ -16,7 +16,13 @@ Kerala grocery shop owner (Malabar Stores, Tilak Nagar, Kurla, Mumbai) wanting a
 - Cart with add/remove/qty stepper, WhatsApp order confirmation, direct UPI deep links — pre-existing, must remain unaffected.
 - New: Razorpay create-order + verify-payment endpoints, minimal, no order history/receipts/refunds/admin dashboard.
 
-## Implemented (2026-07 / this session)
+## Implemented (2026-07 — architecture change: removed backend, moved payments to external Netlify functions)
+- Per explicit user request, `/app/backend` was deleted entirely (accepted the tradeoff that supervisor's `backend` program will crash-loop on a full container restart since it's hardwired to run `/app/backend`; it has been manually stopped via `supervisorctl stop backend` for this session).
+- All Razorpay logic moved OUT of this workspace into `/app/netlify-payments/` — a standalone Node.js project with two Netlify serverless functions (`create-order.js`, `verify-payment.js`) using the `razorpay` npm package + HMAC signature verification. Not deployed by this agent (external platform); user must deploy it to Netlify themselves and set `RAZORPAY_KEY_ID`/`RAZORPAY_KEY_SECRET` there.
+- Frontend now calls `${REACT_APP_PAYMENTS_API_URL}/.netlify/functions/create-order` and `/verify-payment` instead of a local `/api` route. `REACT_APP_PAYMENTS_API_URL` is currently empty in `frontend/.env` — until set, the Pay Online button shows "Online payments are not configured yet" without attempting a network call.
+- Receipt/order-confirmation UI (added previously) is unaffected by this change.
+
+## Implemented (2026-07 / earlier this session)
 - Imported `sidibie1/malabar-proj` into `/app/frontend`.
 - Cleanup: deleted unused shadcn `components/ui/*` (~46 files), `hooks/use-toast.js`, `lib/utils.js`, `constants/testIds/*`, `components.json` — none were referenced by the app. Reduced `src/` from 308K/57 files to 64K/4 files.
 - Fixed image filename casing bug (payasam-mix, pickles, vatteppam were `.PNG` on disk vs `.png` in code) so all 7 product images render on this case-sensitive filesystem.

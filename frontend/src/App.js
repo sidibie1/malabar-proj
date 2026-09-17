@@ -3,8 +3,7 @@ import { ArrowUpRight, CheckCircle2, Clock3, Leaf, MapPin, Menu, MessageCircle, 
 import { useState } from "react";
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const PAYMENTS_API = process.env.REACT_APP_PAYMENTS_API_URL || "";
 
 const phone = "tel:+918291463189";
 const whatsapp = "https://wa.me/918291463189";
@@ -215,6 +214,12 @@ function App() {
     setPaymentStatus("processing");
     setPaymentMessage("");
 
+    if (!PAYMENTS_API) {
+      setPaymentStatus("error");
+      setPaymentMessage("Online payments are not configured yet. Please add the payments API URL.");
+      return;
+    }
+
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
       setPaymentStatus("error");
@@ -223,7 +228,7 @@ function App() {
     }
 
     try {
-      const { data: order } = await axios.post(`${API}/payments/create-order`, { amount: subtotal });
+      const { data: order } = await axios.post(`${PAYMENTS_API}/.netlify/functions/create-order`, { amount: subtotal });
 
       const options = {
         key: order.key_id,
@@ -239,7 +244,7 @@ function App() {
         },
         handler: async (response) => {
           try {
-            const { data: verification } = await axios.post(`${API}/payments/verify`, {
+            const { data: verification } = await axios.post(`${PAYMENTS_API}/.netlify/functions/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
