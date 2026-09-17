@@ -38,7 +38,7 @@ const UPI_APPS = [
   { name: "PhonePe", scheme: "phonepe://pay" }
 ];
 
-const MERCHANT_VPA = "kasar1999@okicici";
+const MERCHANT_VPA = "ssr1996@okicici";
 const MERCHANT_NAME = "Malabar Stores";
 
 function buildUpiUrl(scheme, amount) {
