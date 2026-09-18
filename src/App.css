@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap");
 :root {
-  --canvas: #f6f0e5;
-  --surface: #fff9ee;
+  --canvas: #FFFEFC;
+  --surface: #FFFEFC;
   --ink: #2e2922;
   --brown: #5a3928;
   --leaf: #245b43;
@@ -36,7 +36,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255, 249, 238, 0.96);
+  background: var(--canvas);
   border-bottom: 1px solid var(--line);
 }
 .nav-wrap {
@@ -56,7 +56,7 @@ a {
   font-weight: 600;
 }
 .brand b {
-  color: var(--leaf);
+  color: var(--brown);
   font-style: italic;
 }
 .brand-mark {
@@ -66,7 +66,7 @@ a {
   display: grid;
   place-items: center;
   color: var(--surface);
-  background: var(--leaf);
+  background: var(--brown);
 }
 .nav-links {
   display: flex;
@@ -94,7 +94,7 @@ a {
   transition: background-color 0.2s, transform 0.2s;
 }
 .nav-call:hover {
-  background: var(--leaf);
+  background: var(--brown);
   transform: translateY(-2px);
 }
 .menu-button {
@@ -146,7 +146,7 @@ h3 {
   font-family: "Cormorant Garamond", serif;
   font-weight: 500;
   margin: 0;
-  line-height: 0.95;
+  line-height: 1.06;
 }
 h1 {
   font-size: clamp(3.8rem, 7vw, 6.5rem);
@@ -155,7 +155,7 @@ h1 {
 }
 h1 em,
 h2 em {
-  color: var(--leaf);
+  color: var(--brown);
   font-style: italic;
 }
 .hero-tagline {
@@ -209,7 +209,7 @@ h2 em {
   transform: translateY(-2px);
 }
 .button-primary {
-  background: var(--leaf);
+  background: var(--brown);
   color: #fff;
 }
 .button-primary:hover {
@@ -273,43 +273,6 @@ h2 em {
 .sun-stamp b {
   font-size: 14px;
 }
-.leaf-shape {
-  position: absolute;
-  background: var(--leaf);
-  opacity: 0.95;
-}
-.leaf-one {
-  width: 310px;
-  height: 100px;
-  left: -40px;
-  bottom: 70px;
-  border-radius: 100% 0 100% 0;
-  transform: rotate(30deg);
-}
-.leaf-two {
-  width: 340px;
-  height: 110px;
-  right: -70px;
-  bottom: 25px;
-  border-radius: 0 100% 0 100%;
-  transform: rotate(-25deg);
-  background: #397050;
-}
-.coconut-doodle {
-  position: absolute;
-  z-index: 2;
-  left: 37%;
-  top: 30%;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #8a654b;
-  color: #f6f0e5;
-  box-shadow: 22px 28px 0 rgba(90, 57, 40, 0.14);
-  transform: rotate(-8deg);
-}
 .hero-label {
   position: absolute;
   z-index: 3;
@@ -320,7 +283,7 @@ h2 em {
   align-items: center;
   background: var(--surface);
   padding: 15px 19px;
-  color: var(--leaf);
+  color: var(--brown);
   box-shadow: 5px 5px 0 rgba(90, 57, 40, 0.08);
   font-size: 11px;
   line-height: 1.4;
@@ -759,7 +722,7 @@ h2 em {
     justify-content: center;
   }
   .section-pad {
-    padding: 78px 0;
+    padding: 45px 0;
   }
   .hero {
     padding-top: 40px;

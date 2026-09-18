@@ -1,9 +1,24 @@
 import "@/App.css";
-import { ArrowUpRight, CheckCircle2, Clock3, Leaf, MapPin, Menu, MessageCircle, Phone, Smartphone, Star, Store, UtensilsCrossed, X } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  CheckCircle2, 
+  Clock3, 
+  Leaf,
+  TreePalm, 
+  MapPin, 
+  Menu, 
+  MessageCircle, 
+  Phone, 
+  Smartphone, 
+  Star, 
+  Store, 
+  UtensilsCrossed, 
+  X 
+} from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 
-const PAYMENTS_API = process.env.REACT_APP_PAYMENTS_API_URL || "";
+const PAYMENTS_API = "malabar-testenv.netlify.app";
 
 const phone = "tel:+918291463189";
 const whatsapp = "https://wa.me/918291463189";
@@ -116,7 +131,7 @@ function ProductCard({ product, index, cartItem, onAdd, onUpdateQty }) {
           data-testid={`add-to-cart-${index + 1}`}
           onClick={() => onAdd(product)}
           className="w-full flex items-center justify-center gap-2 bg-leaf hover:bg-opacity-90 text-white font-medium py-2.5 px-4 rounded shadow-sm transition text-sm"
-          style={{ backgroundColor: "var(--leaf)" }}
+          style={{ backgroundColor: "var(--brown)" }}
         >
           Add to Cart
         </button>
@@ -291,23 +306,16 @@ function App() {
     </div></header>
 
     <main id="top">
-      <section className="hero section-pad"><div className="hero-grid inner-width">
-        <div className="hero-copy"><p data-testid="hero-eyebrow" className="eyebrow hero-eyebrow"><span /> Kurla's Kerala pantry</p>
-          <h1 data-testid="hero-title">A little taste of <em>home.</em></h1>
-          <p data-testid="hero-tagline" className="hero-tagline">A place where you can find all the South Indian items that you need, especially Kerala items.</p>
-          <div data-testid="hero-rating" className="rating-line"><span className="rating-stars">★★★★★</span><strong>5.0</strong><span>Google rating</span><i>•</i><span>5/5 on Facebook</span></div>
-          <ActionLinks />
-        </div>
-        <div className="hero-visual" aria-label="A warm illustrated Kerala pantry scene"><div className="sun-stamp">EST.<br /><b>LOCAL</b></div><div className="leaf-shape leaf-one" /><div className="leaf-shape leaf-two" /><div className="coconut-doodle"><Leaf size={64} strokeWidth={1.1} /></div><div className="hero-label"><Store size={16} /><span>Family-run<br /><b>since day one</b></span></div><div className="hero-arc" /></div>
-      </div><div className="hero-ticker"><div className="inner-width ticker-content"><span>Fresh from Kerala</span><span>•</span><span>Homemade favourites</span><span>•</span><span>Good food, good people</span></div></div></section>
+      
+        <img data-testid="hero-image" className="hero-image" src="/images/intro3.png" alt="Malabar Stores in Tilak Nagar" />
 
-      <section id="about" className="about section-pad"><div className="inner-width about-grid"><div><p className="eyebrow">01 / Our story</p><h2 data-testid="about-heading">The neighbourhood pantry with a <em>homemade heart.</em></h2><p data-testid="about-description" className="body-large">For everyday staples, nostalgic snacks and those hard-to-find Kerala favourites, Malabar Stores is a trusted local stop in Tilak Nagar. We keep the shelves stocked with authentic South Indian goodness—and treat every customer like a neighbour.</p><a data-testid="about-products-link" className="text-link" href="#products">See what's on the shelf <ArrowUpRight size={17} /></a></div><div className="trust-card"><div className="trust-icon"><UtensilsCrossed size={23} /></div><p className="eyebrow">Open every day</p><h3 data-testid="about-hours">10 AM–2 PM<br /><span>&</span> 4:30 PM–9 PM</h3><div className="rule" /><p data-testid="about-category">South Indian & Kerala<br />specialty groceries</p></div></div></section>
+
+      <section id="about" className="about section-pad"><div className="inner-width about-grid"><div><h2 data-testid="about-heading">The neighbourhood pantry with a <em>homemade heart.</em></h2><p data-testid="about-description" className="body-large">For everyday staples, nostalgic snacks and those hard-to-find Kerala favourites, Malabar Stores is a trusted local stop in Tilak Nagar. We keep the shelves stocked with authentic South Indian goodness—and treat every customer like a neighbour.</p><a data-testid="about-products-link" className="text-link" href="#products">See what's on the shelf <ArrowUpRight size={17} /></a></div><div className="trust-card"><div className="trust-icon"><UtensilsCrossed size={23} /></div><p className="eyebrow">Open every day</p><h3 data-testid="about-hours">10 AM–2 PM<br /><span>&</span> 4:30 PM–9 PM</h3><div className="rule" /><p data-testid="about-category">South Indian & Kerala<br />specialty groceries</p></div></div></section>
 
       <section id="products" className="products section-pad">
         <div className="inner-width">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">02 / Pantry picks</p>
               <h2 data-testid="products-heading">Good things from <em>our shelves.</em></h2>
             </div>
               <p data-testid="products-intro">Homemade treats, Kerala staples and familiar brands—picked for the way you actually cook and eat.</p>
@@ -333,7 +341,6 @@ function App() {
       <section id="reviews" className="reviews section-pad">
         <div className="inner-width review-grid">
           <div className="review-score">
-            <p className="eyebrow">03 / Kind words</p>
             <div data-testid="review-rating-badge" className="rating-badge">
               <Star size={25} fill="currentColor" /><strong>5.0</strong><span>Google<br />rating</span>
             </div>
@@ -350,7 +357,7 @@ function App() {
           </div>
         </section>
 
-      <section id="visit" className="visit section-pad"><div className="inner-width visit-grid"><div className="map-frame"><iframe data-testid="location-map" title="Map showing Malabar Stores in Tilak Nagar, Kurla" loading="lazy" src="https://www.google.com/maps?q=Malabar+Stores+Tilak+Nagar+Kurla+Mumbai&output=embed" /></div><div className="visit-copy"><p className="eyebrow">04 / Come say hello</p><h2 data-testid="visit-heading">Find us in <em>Tilak Nagar.</em></h2><div className="contact-list"><div data-testid="location-address"><MapPin size={20} /><p><b>Address</b>Sainath Co-op Hsg. Society Ltd,<br />Bldg No. 24, Shop No.1, Shree,<br />Tilak Nagar, Kurla, Mumbai<br />Maharashtra 400089</p></div><div data-testid="location-hours"><Clock3 size={20} /><p><b>Hours</b>Open daily<br />10 AM–2 PM & 4:30 PM–9 PM</p></div><div data-testid="location-phone"><Phone size={20} /><p><b>Call us</b><a data-testid="location-phone-link" href={phone}>082914 63189</a></p></div></div><ActionLinks prefix="visit" compact /></div></div></section>
+      <section id="visit" className="visit section-pad"><div className="inner-width visit-grid"><div className="map-frame"><iframe data-testid="location-map" title="Map showing Malabar Stores in Tilak Nagar, Kurla" loading="lazy" src="https://www.google.com/maps?q=Malabar+Stores+Tilak+Nagar+Kurla+Mumbai&output=embed" /></div><div className="visit-copy"><h2 data-testid="visit-heading">Find us in <em>Tilak Nagar.</em></h2><div className="contact-list"><div data-testid="location-address"><MapPin size={20} /><p><b>Address</b>Sainath Co-op Hsg. Society Ltd,<br />Bldg No. 24, Shop No.1, Shree,<br />Tilak Nagar, Kurla, Mumbai<br />Maharashtra 400089</p></div><div data-testid="location-hours"><Clock3 size={20} /><p><b>Hours</b>Open daily<br />10 AM–2 PM & 4:30 PM–9 PM</p></div><div data-testid="location-phone"><Phone size={20} /><p><b>Call us</b><a data-testid="location-phone-link" href={phone}>082914 63189</a></p></div></div><ActionLinks prefix="visit" compact /></div></div></section>
     </main>
 
     <footer className="site-footer">
