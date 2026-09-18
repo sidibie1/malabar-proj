@@ -48,25 +48,6 @@ const parsePrice = (priceStr) => {
   return match ? parseInt(match[0], 10) : 0;
 };
 
-const UPI_APPS = [
-  { name: "Google Pay", scheme: "gpay://upi/pay" },
-  { name: "PhonePe", scheme: "phonepe://pay" }
-];
-
-const MERCHANT_VPA = "ssr1996@okicici";
-const MERCHANT_NAME = "Malabar Stores";
-
-function buildUpiUrl(scheme, amount) {
-  const params = new URLSearchParams({
-    pa: MERCHANT_VPA,
-    pn: MERCHANT_NAME,
-    am: Number(amount).toFixed(2),
-    cu: "INR",
-  });
-
-  return `${scheme}?${params.toString()}`;
-}
-
 function loadRazorpayScript() {
   return new Promise((resolve) => {
     if (window.Razorpay) {
