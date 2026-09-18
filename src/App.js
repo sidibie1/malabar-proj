@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 
-const PAYMENTS_API = "malabar-testenv.netlify.app";
+const PAYMENTS_API = "https://malabar-testenv.netlify.app";
 
 const phone = "tel:+918291463189";
 const whatsapp = "https://wa.me/918291463189";
@@ -583,24 +583,6 @@ function App() {
                       ℹ️ "Ask in-store" items are included in your cart as ₹0. Please confirm their final prices with us when placing the order.
                     </p>
                   )}
-                </div>
-
-                {/* Direct Pay via UPI App Section */}
-                <div className="bg-[#fcf8f2] border border-[#d8cdbc] rounded-lg p-4 space-y-2.5">
-                  <h3 className="text-xs font-bold text-gray-800 tracking-wide uppercase text-center">Pay via UPI App</h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {UPI_APPS.map((app) => (
-                      <a
-                        key={app.name}
-                        href={buildUpiUrl(app.scheme, subtotal)}
-                        data-testid={`upi-app-${app.name.toLowerCase().replace(/\s+/g, '-')}`}
-                        className="flex items-center justify-center gap-1.5 py-2 px-3 bg-white border border-[#d8cdbc] rounded shadow-sm hover:bg-amber-50 text-xs font-semibold text-gray-800 transition"
-                      >
-                        <Smartphone size={14} className="text-emerald-600" />
-                        <span>{app.name}</span>
-                      </a>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Razorpay Online Payment */}
